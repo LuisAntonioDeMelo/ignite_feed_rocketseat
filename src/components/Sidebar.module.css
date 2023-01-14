@@ -16,6 +16,7 @@
   align-items: center;
   margin-top: calc(0px - 1.5rem - 6px);
 }
+
 .profile img {
   width: calc(3rem +12px);
   height: calc(3rem + 12px);
