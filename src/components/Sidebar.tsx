@@ -4,6 +4,7 @@ import perfil from "../assets/perfil.png";
 import background from "../assets/background.jpg";
 
 import { PencilLine } from "phosphor-react";
+import { Avatar } from "./Avatar";
 
 export function Sidebar() {
   return (
@@ -11,7 +12,7 @@ export function Sidebar() {
       <img className={styles.cover} src={background} />
 
       <div className={styles.profile}>
-        <img src={perfil} />
+       <Avatar src={perfil}/>
         <strong>User </strong>
         <span>Profile</span>
       </div>
