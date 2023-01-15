@@ -22,7 +22,7 @@ const posts = [
       },
       { type: "paragraph", content: "fiz no NLW Return ...." },
       { type: 'link', content: '👌 jane.desing/doctor"' },
-      { type: 'hashtag', content: ["#NovoProjeto", "#Nlw ", "#Rocketseat"] },
+      { type: 'hashtag', content: "#NovoProjeto/#Nlw/#Rocketseat" },
     ],
     publishedAt: new Date('2022-01-14 20:00:00'),
   },
@@ -42,7 +42,7 @@ const posts = [
       },
       { type: "paragraph", content: "fiz no NLW Return ...." },
       { type: "link", content: '👌 jane.desing/doctor"' },
-      { type: 'hashtag', content: ["#NovoProjeto", "#Nlw ", "#Rocketseat"] },
+      { type: 'hashtag', content: "#NovoProjeto/#Nlw/#Rocketseat" },
     ],
     publishedAt: new Date('2022-01-14 20:00:00'),
   },
@@ -59,8 +59,8 @@ function App() {
             post => (
             <Post key={post.id}
               author={post.author}
-              content={post.content}
               publishedAt={post.publishedAt}
+              content={post.content}
             />)
           )}
         </main>

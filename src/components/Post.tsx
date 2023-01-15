@@ -4,15 +4,27 @@ import prBR from "date-fns/locale/pt-BR";
 import { Comment } from "./Comment";
 import { Avatar } from "./Avatar";
 import { ptBR } from "date-fns/locale";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 
-// author {  avatar_url : "", name: "", role: ""}
-// publishedAt: Date
-// content: String
-//const comments = [1, 2, 3];
+interface Author {
+  avatarUrl: string;
+  name: string;
+  role: string;
+}
 
-export function Post({ author, publishedAt, content }: any) {
-  const [comments, setComments] = useState<string []>([]);
+interface Content {
+  type: string ;
+  content: string
+}
+
+interface PostProps {
+  author: Author;
+  publishedAt: Date;
+  content: Content[];
+}
+
+export function Post({ author, publishedAt, content }: PostProps) {
+  const [comments, setComments] = useState<string[]>([]);
   const [newCommentText, setNewCommentText] = useState<string>("");
 
   const publishedDateFormatted = format(
@@ -27,16 +39,16 @@ export function Post({ author, publishedAt, content }: any) {
   });
   // estado = variaveis que eu quero o componente monitore
 
-  function handleCreateNewComment() {
-    event?.preventDefault();
+  function handleCreateNewComment(event: FormEvent) {
+    event.preventDefault();
 
     setComments([...comments, newCommentText]);
     setNewCommentText("");
   }
 
-  function handleNewComentChange() {
-    event?.target.setCustomValidity('');
-    setNewCommentText(event?.target?.value);
+  function handleNewComentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity("");
+    setNewCommentText(event.target.value);
   }
 
   function deleteComment(commentToDelete: string) {
@@ -46,10 +58,10 @@ export function Post({ author, publishedAt, content }: any) {
     setComments(commentsWithoutDeleteOne);
   }
 
-  function hanldeNewCommentInvalid() {
-    event?.target.setCustomValidity('esse campo é obrigatório');
+  function hanldeNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event?.target.setCustomValidity("esse campo é obrigatório");
   }
-  
+
   const isNeWcOommentEmpty = newCommentText.length === 0;
 
   return (
@@ -71,21 +83,22 @@ export function Post({ author, publishedAt, content }: any) {
         </time>
       </header>
       <div className={styles.content}>
-        {content.map((line: any) => {
+        {content.map((line: Content) => {
           if (line.type === "paragraph") {
-            return <p key={line.content}>{line.content}</p>;
+            return <p key={line.content as string}>{line.content}</p>;
           } else if (line.type === "link") {
             return (
-              <p key={line.content}>
+              <p key={line.content as string}>
                 <a href="#">{line.content}</a>{" "}
               </p>
             );
-          } else if (line.type === "hashtag") {
-            return line.content.map((hash: any) => (
+          } 
+          else if (line.type === "hashtag") { 
+            return line.content.split('/').map( (hash: string) => (
               <a href="#" key={hash}>
                 {hash}{" "}
               </a>
-            ));
+            )) ;
           }
         })}
       </div>
@@ -103,10 +116,12 @@ export function Post({ author, publishedAt, content }: any) {
         />
 
         <footer>
-          <button type="submit" disabled={isNeWcOommentEmpty} >Publicar</button>
+          <button type="submit" disabled={isNeWcOommentEmpty}>
+            Publicar
+          </button>
         </footer>
       </form>
-      
+
       <div className={styles.commentList}>
         {comments.map((comment: any) => {
           return (
